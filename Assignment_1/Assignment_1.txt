@@ -1,8 +1,0 @@
-1. Install Hadoop 2.7.1 and run it in Pseudo-Distributed Operation mode by following the explanation from the WIKI.
-
-2. Import the source code in your favorite API and run the test-cases
-
-3. Build the project and submit the Jar to your local Hadoop Cluster. Run the by use provide WordCount example over the example.txt file and store the results in Assignment_1/output/.
-
-4. Push the Assignment_1 folder to your group repository.
-
