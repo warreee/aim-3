@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.tuberlin.dima.aim3</groupId>
-    <artifactId>assignment_1_1</artifactId>
+    <artifactId>wordcount</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>assignment_1_1</name>
+    <name>Word Count</name>
     <url>www.dima.tu-berlin.de</url>
 
     <properties>
