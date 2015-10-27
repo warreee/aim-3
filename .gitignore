@@ -1,0 +1,6 @@
+.idea/
+*.iml
+*.pyc
+.ipynb_checkpoints/
+target/
+.DS_Store
