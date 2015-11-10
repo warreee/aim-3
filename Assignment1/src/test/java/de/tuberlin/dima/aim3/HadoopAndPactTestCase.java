@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -146,7 +147,7 @@ public abstract class HadoopAndPactTestCase {
     List<String> lines = new ArrayList<String>();
     BufferedReader reader = null;
     try {
-      reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
+      reader = new BufferedReader(new FileReader(path));
       String line;
       while ((line = reader.readLine()) != null) {
         lines.add(line);

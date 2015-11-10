@@ -6,12 +6,12 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.mahout.common.iterator.FileLineIterable;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import static org.junit.Assert.assertEquals;
 
 public class AverageTemperaturePerMonthTest extends HadoopAndPactTestCase {
 
@@ -22,7 +22,7 @@ public class AverageTemperaturePerMonthTest extends HadoopAndPactTestCase {
     File outputDir = getTestTempDir("output");
     outputDir.delete();
 
-    writeLines(inputFile, readLines("/assignment1/temperatures.tsv"));
+    writeLines(inputFile, readLines("src/test/resources/assignment1/temperatures.tsv"));
 
     double minimumQuality = 0.25;
 
