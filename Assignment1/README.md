@@ -11,7 +11,7 @@ At first, you have to install Maven and git on your machine.
 
 Next, you have to checkout the project via 
 
-`$ git clone https://github.com/dimalabs/scalable-datamining-class.git scalable-datamining-class/`
+`$ git clone https://gitlab.tubit.tu-berlin.de/aim3_WS1516/assignments.git`
 
 
 Then, go to the project directory and build the project with maven
@@ -71,4 +71,3 @@ After you are done with all changes and committed everything, you need to create
     0001-excercise2.patch
 
 The resulting file is that one that you need to upload to ISIS.
-
