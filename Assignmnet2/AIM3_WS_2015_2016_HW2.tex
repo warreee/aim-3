@@ -1,0 +1,130 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{german,anysize,amsmath,amssymb,amsthm,paralist, array}
+\usepackage{url}
+\usepackage{dirtree}
+\usepackage{enumitem}
+\usepackage{color}
+\selectlanguage{german}
+\usepackage[T1]{fontenc}
+
+\pagestyle{empty}
+
+\setlength{\textheight}{27cm}
+\setlength{\parindent}{0cm}
+
+%enumeration with less space between items
+\newenvironment{cEnum}{
+\begin{enumerate}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}
+
+\begin{document}
+\textsc{Technische Universit"at Berlin}{\small\hfill 
+Scalable Data Science: Systems and Methods }\\
+{\small Database Systems and Information Management Group{\small\hfill WS 2015-2016}\\
+C. Boden, S. Schelter, J. Soto, and Prof.~Dr.~Volker~Markl}
+
+\bigskip
+\centerline{\Large\textbf{Second Assignment}}
+\centerline{\emph{{Classification, Recommender Systems, and Stream Processing}}}
+\centerline{Due on December 18th at 12 noon}
+\bigskip
+
+
+\subsection*{I. Classification (Total: 4 pts.)}
+In this exercise, you will familiarise yourself with classification.\\ 
+
+\textbf{A. Naive Bayes}\\
+
+Implement a Naive Bayes classifier using Apache Flink. Evaluate your implementation on a data set of postings from 20 newsgroups (check out \url{http://qwone.com/~jason/20Newsgroups/} for a description of the data). Clone the classification source code from the Git assignment repository and have a look at \textit{de.tuberlin.dima.aim3.assignment2}. Be sure to adjust \textit{de.tuberlin.dima.aim3. assignment2.Config} to point to the location of your local project. You will have to complete the three provided classes \textit{Training}, \textit{Classification} and \textit{Evaluator}. 
+
+\begin{enumerate}
+	\item In \emph{Training.java} you have to complete the two flink data flows that should compute the conditional counts of words per label (<label, word, count>) as well as the summed counts of all word counts per label (<label, counts>).
+	\item In \emph{Classification.java} you have to implement the classification function.
+	\item  In \emph{Evaluator.java} you have to complete a function that computes the accuracy of your classifier on a provided test data set. Your classifier should produce an accuracy of well over 80\%. If not you maybe forgot to introduce a smoothing parameter in your classifier.
+\end{enumerate}
+
+We have also provided a test set without labels (\textit{secrettest.dat}). Run your trained classifier and write the output to a file. It should contain the number, label, and probability assigned to each data point in a tab separated manner (e.g., [1]<tab>talk.politics.guns<tab>0.123). Please also upload this file together with your patch in ISIS. \\
+
+\textbf{B. Background Notes}
+\begin{enumerate}
+\item{\textbf{Naive Bayes Classifier: Theory}}\\
+As discussed in class, a naive Bayes classifier models a joint distribution over a label $Y$ and a set of observed random variables or features, $( F_1 , F_2 \dots F_n)$  using the assumption that the full joint distribution can be factored as follows (features are assumed to be conditionally independent given the label): 
+\[P ( F_1 , F_2 \dots F_n) = P(Y) \prod_i P(F_i | Y)\]
+
+\newpage
+
+To classify a datum, we can find the most probable label given the feature values for each pixel, using Bayes theorem:
+\[ P(y|f_1 , \dots , f_m ) =  \frac{P( f_1 , \dots , f_m  | y) P (y)	}{ P( f_1 , \dots , f_m  )} = \frac{P (y) \prod_{i=1}^{m} P( f_i | y) 	}{ P( f_1 , \dots , f_m  )} \]
+\[arg max_{y} P(y| f_1 \dots f_m) = arg max_{y} \frac{P (y) \prod_{i=1}^{m} P( f_i | y) 	}{ P( f_1 , \dots , f_m  )} = arg max_{y} P (y) \prod_{i=1}^{m} P( f_i | y) 	\]
+
+Given that multiplying many probabilities can result in underflow, instead we will compute log probabilities which have the same argmax:
+
+\[ arg max_{y} \log P(y| f_1 \dots f_m) =  arg max_{y} \left\{ \log P (y) + \sum_{i=1}^{m} \log P( f_i | y)  \right\}\]
+
+To compute logarithms, use \texttt{Math.log()} function. Put simply, you will have to compute the most likely label given the data (text in the posting to be classified). This means you have to compute the probability for each label  and then  return the label which recieves the highest probability from your model for the document in question.\\
+
+\item{\textbf{Parameter Estimation}}\\
+Our naive Bayes model has several parameters to estimate. One parameter is the prior distribution over labels (the names of the newsgroups), $P(Y)$. for simplicity we assume a uniform prior accross all classes. The term $ \log P (y)$ can thus be ignored in the argmax computation. The other parameters to estimate are the conditional probabilities of our features given each label y: $P(F_i |Y=y)$, where   is the conditional probability of a word $w$ occurring in a posting of class(topic) $y$. We do this for each possible feature value (each word in the vocabulary).
+\[ \hat{P}(w | Y = y) = \frac{count(w , y)}{\sum_{w'}{count(w',y)}}\]
+where $count(w , y)$ is the number of times word $w$ occured in the training examples of label y.\\
+
+\item{\textbf{Smoothing}}\\	
+Your current parameter estimates are unsmoothed, that is, you are using the empirical estimates for the parameters. These estimates are rarely adequate in real systems. Minimally, we need to make sure that no parameter ever receives an estimate of zero, but good smoothing can boost accuracy quite a bit by reducing overfitting. In this assignment, we use Laplace smoothing, which adds k counts to every possible observation value:
+
+\[ P(w|Y=y) = \frac{count(w , y) + k}{\sum_{w'}{(count(w',y) + k)}}\]
+If $k=0$, the probabilities are unsmoothed. As $k$ grows larger, the probabilities are smoothed more and more. \\
+
+\end{enumerate}
+
+\newpage
+
+\subsection*{II. Recommender Systems: Item-based Collaborative Filtering (Total 2 pts.)}
+Suppose you are given a dataset of ratings as depicted in the table below: 
+
+\begin{center}
+\begin{tabular}{ | l | c | c | c | c |}
+    \hline
+     & Movie A & Movie B & Movie C & Movie D \\ \hline
+     Ryan & 1 & 5 & 3 & 5\\ \hline
+     Stavros & - & - & 2 & - \\ \hline
+     Brahma & - & 4 & 1 & 1 \\ \hline
+     Brodie & 4 & 3 & - & 2\\ \hline
+     Zosimus & - & 5 & 1 & - \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+	\item Compute the \textbf{item similarity matrix} (denoted by R) using \textbf{Pearson Correlation} as a measure. 
+	\item Compute the \textbf{item similarity matrix} (denoted by S) using \textbf{Jaccard Coefficient} as a measure.
+	\item Use matrices R and S to compute the corresponding ratings that \textit{Zosimus} would give to \textit{Movies A \& D}. 	
+	\item Use matrices R and S to compute the corresponding ratings that \textit{Stavros} would give to \textit{Movies A \& B}. 	
+\end{enumerate}
+
+For each sub-problem 1-4, show how you arrived at your solution.
+
+%\newpage
+
+\subsection*{III. Stream Processing (Total: 4 pts.)}
+In this exercise, you will familiarise yourself with streaming in Flink. This exercise will be distributed in the near future. In the meantime, focus on the first two exercises.\\ 
+
+\bigskip
+\centerline{\textbf{Deadline and General Instructions}}
+\bigskip
+
+Please submit your results to ISIS in a zip archive with the following structure and naming conventions until the above specified deadline:
+
+\dirtree{%
+ .1 aim3-WS1516-\textless name\textgreater .zip.
+ .2 author.txt (contains your name and matriculation number).
+ .2 task I.
+ .3 the patch files to be submitted .
+ .2 {\color{red} task III}.
+ .3 the patch files to be submitted .
+ .2 documentation.pdf (answers to the questions posed in each of the exercises) .
+ }
+
+\end{document}
