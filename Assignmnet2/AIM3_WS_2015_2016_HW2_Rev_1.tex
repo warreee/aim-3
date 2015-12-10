@@ -10,7 +10,7 @@
 
 \pagestyle{empty}
 
-\setlength{\textheight}{27cm}
+%\setlength{\textheight}{27cm}
 \setlength{\parindent}{0cm}
 
 %enumeration with less space between items
@@ -109,7 +109,34 @@ For each sub-problem 1-4, show how you arrived at your solution.
 %\newpage
 
 \subsection*{III. Stream Processing (Total: 4 pts.)}
-In this exercise, you will familiarise yourself with streaming in Flink. This exercise will be distributed in the near future. In the meantime, focus on the first two exercises.\\ 
+In this exercise, you will familiarise yourself with streaming in Flink. 
+
+\textbf{A. Preparation}\\
+As a starting point, read both the Flink Programming Guide\footnote{Programming Guide - \url{https://ci.apache.org/projects/flink/flink-docs-release-0.10/apis/programming_guide.html}} and the Flink Streaming Manual\footnote{Streaming API - \url{https://ci.apache.org/projects/flink/flink-docs-release-0.10/apis/streaming_guide.html}}. In addition, for this specific exercise, you should use Apache Flink version 0.10.1.\\
+
+\textbf{B. Foundations}\\
+Prior to answering the following questions, compare the Word Count example referenced in the Batch API\footnote{Word Count Batch - \url{https://github.com/apache/flink/blob/master/flink-examples/flink-java-examples/src/main/java/org/apache/flink/examples/java/wordcount/WordCount.java}} with the corresponding one referenced in the Streaming API\footnote{Word Count Stream - \url{https://github.com/apache/flink/blob/master/flink-streaming-examples/src/main/java/org/apache/flink/streaming/examples/windowing/WindowWordCount.java}}.
+
+\begin{cEnum}
+	\item What are the key differences between batch and stream data sources? 
+	\item What problem will we encounter, if blocking operators, such as aggregations are used in streaming queries?
+	\item How do streaming engines address the problem referenced just above? Hint: Examine the aforementioned Word Count examples.
+	\item Batch processing engines like Apache Spark simulate streaming behavior using discretized streams (D-Streams). What is the main idea behind D-Streams?	
+	\item What are the disadvantages attributed to using D-Streams on a batch processing engine, as opposed to using a runtime engine that offers native streaming support?
+\end{cEnum}
+
+\textbf{C. Monitoring a Fleet of Taxis}\\
+Suppose an Administrator (named Susan) at a Taxi Corporate Office monitors her companies fleet using a software system that tracks GPS signals. She has contacted you and requests an upgrade to the software system, i.e., extend its capabilities to monitor additional events described further below). Given the TopSpeedWindowing Example (see GitLab) as a starting point, adjust it to alert users (e.g., via print/display) to particular events.
+
+\begin{cEnum}
+	\item Examine the TopSpeedWindowing example and illustrate the query in a flow graph. Describe which data are transferred along the different edges.
+	\item Adjust the (TopSpeedWindowing specific) stream data generator as follows: \\
+            (a) Urban taxi drivers seldom drive faster than 50 km/h, but do so on occasion. \\
+            (b) Urban taxi drivers experience long wait times between customers periodically.	
+	\item Using your adapted stream data generator, display an alert, whenever a taxi drives faster than 50 km/h.	
+	\item Using your adapted stream data generator, display an alert that continuously notifies (each second) about all taxis that are idle for over 5 seconds.	
+	\item Update your illustration to reflect all of the changes you have made.
+\end{cEnum}
 
 \bigskip
 \centerline{\textbf{Deadline and General Instructions}}
@@ -122,7 +149,7 @@ Please submit your results to ISIS in a zip archive with the following structure
  .2 author.txt (contains your name and matriculation number).
  .2 task I.
  .3 the patch files to be submitted .
- .2 {\color{red} task III}.
+ .2 task III.
  .3 the patch files to be submitted .
  .2 documentation.pdf (answers to the questions posed in each of the exercises) .
  }

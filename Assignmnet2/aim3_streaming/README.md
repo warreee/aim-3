@@ -1,0 +1,1 @@
+To run the program just execute the main method. This will setup a local Flink Instance.
