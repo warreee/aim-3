@@ -16,6 +16,7 @@ Next, you have to checkout the project via
 
 Then, go to the project directory and build the project with maven
 
+`$ cd 2016-SS-Assignments/Assignment1/HadoopTask/`
 
 `$ mvn clean install`
 
@@ -26,7 +27,7 @@ For those of you that don't want to use an IDE for the homework, here is how you
 
 `$ mvn -Pcheck -Dtest=PrimeNumbersWritableTest clean test`
 
-Note that you that the `check` profile must be activated via `-Pcheck`, as the tests are disabled by default.
+Note that the `check` profile must be activated via `-Pcheck`, as the tests are disabled by default.
 
 
 ### Git workflow for an assignment
