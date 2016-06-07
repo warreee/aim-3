@@ -3,4 +3,12 @@
 *.pyc
 .ipynb_checkpoints/
 target/
+.classpath
+.settings/
+.project
 .DS_Store
+*.aux
+*.fdb_latexmk
+*.log
+*.synctex.gz
+ENV/
