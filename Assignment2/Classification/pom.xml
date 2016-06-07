@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.tuberlin.dima</groupId>
-  <artifactId>scalable-datamining-class</artifactId>
+  <artifactId>aim3_classification</artifactId>
   <version>1.0</version>
   <name>AIM 3: Scalable Data Mining and Data Analysis</name>
 
