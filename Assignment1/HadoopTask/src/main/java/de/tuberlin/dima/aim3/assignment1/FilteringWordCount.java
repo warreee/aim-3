@@ -61,17 +61,15 @@ public class FilteringWordCount extends HadoopJob {
         protected void map(Object key, Text line, Context ctx) throws IOException, InterruptedException {
             String[] filterList = {"to", "and", "in", "the"};
             addWordsToFilter(Arrays.asList(filterList));
-            Pattern.compile(" ").splitAsStream(line.toString().replace(",", "")).map(String::toLowerCase)
-                    .filter(l -> !getFilterList().contains(l)).collect(groupingBy(Function.identity(), counting()))
-                    .forEach((word, count) -> {
-                        try {
-                            ctx.write(new Text(word), new IntWritable(count.intValue()));
-                        } catch (IOException | InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
+            Pattern.compile(" ").splitAsStream(line.toString().replace(",", "")).map(String::toLowerCase).filter(l -> !getFilterList().contains(l)).collect(groupingBy(Function.identity(), counting())).forEach((word, count) -> writeToCtx(word, count, ctx));
+        }
 
+        private void writeToCtx(String word, Long val, Context ctx) {
+            try {
+                ctx.write(new Text(word), new IntWritable(val.intValue()));
+            } catch (InterruptedException | IOException ignored) {
 
+            }
         }
 
     }
