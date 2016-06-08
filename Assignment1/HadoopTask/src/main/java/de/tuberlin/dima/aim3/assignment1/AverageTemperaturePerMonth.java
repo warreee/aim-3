@@ -27,7 +27,7 @@ public class AverageTemperaturePerMonth extends HadoopJob {
         Path outputPath = new Path(parsedArgs.get("--output"));
 
         double minimumQuality = Double.parseDouble(parsedArgs.get("--minimumQuality"));
-        
+
         Job averageTemperature = prepareJob(inputPath, outputPath, TextInputFormat.class,
                 AverageTemperatureMapper.class, Text.class, IntWritable.class,
                 AverageTemperatureReducer.class, Text.class, DoubleWritable.class,
