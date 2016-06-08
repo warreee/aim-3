@@ -125,13 +125,15 @@ Juan \textsc{Soto} \\ % Supervisor's Name
 \section*{Programming in Hadoop}
 \subsection*{1. WordCount - "Hello World" of MapReduce}
 \lstinputlisting[language=Java, caption=FilteringWordCount.java]{../HadoopTask/src/main/java/de/tuberlin/dima/aim3/assignment1/FilteringWordCount.java}
+\lstinputlisting[language=, caption=Output FilteringWordCount]{output1.txt}
 
 \subsection*{2. A custom Writable}
 \lstinputlisting[language=Java, caption=PrimeNumbersWritable.java]{../HadoopTask/src/main/java/de/tuberlin/dima/aim3/assignment1/PrimeNumbersWritable.java}
+\lstinputlisting[language=, caption=Output PrimeNumbersWritable]{output2.txt}
 
 \subsection*{3. Average temperature per month}
 \lstinputlisting[language=Java, caption=AverageTemperaturePerMonth.java]{../HadoopTask/src/main/java/de/tuberlin/dima/aim3/assignment1/AverageTemperaturePerMonth.java}
-
+\lstinputlisting[language=, caption=Output AverageTemperature]{output3.txt}
 \pagebreak
 \section*{Clustering}
 \subsection*{1. Metrics I}
@@ -167,7 +169,7 @@ $$Centroid(((0,7),(6,5))=(3,6)$$
 $$SSE(((0,7),(6,5))=\sqrt{9+1}^2 + \sqrt{9+1}^2 = 20$$
 $$Centroid((3,0),(6,5))=(4.5,2.5)$$
 $$SSE((3,0),(6,5))=\sqrt{2.25+6.25}^2 + \sqrt{2.25+6.25}^2 = 17$$
-
+\noindent
 The SSE is the smallest in the last configuration therefore the the most optimal split in two groups is the following:
 \\
 \\

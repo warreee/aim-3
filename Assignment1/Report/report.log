@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.9.29)  8 JUN 2016 23:41
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.9.29)  9 JUN 2016 00:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -863,36 +863,37 @@ File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 29.
- [1])
+ [1]) (./output1.txt
+[2])
 (../HadoopTask/src/main/java/de/tuberlin/dima/aim3/assignment1/PrimeNumbersWrit
-able.java [2])
+able.java [3]) (./output2.txt)
 (../HadoopTask/src/main/java/de/tuberlin/dima/aim3/assignment1/AverageTemperatu
-rePerMonth.java [3]) [4]
-Underfull \hbox (badness 10000) in paragraph at lines 140--144
+rePerMonth.java [4]) (./output3.txt [5]) [6]
+Underfull \hbox (badness 10000) in paragraph at lines 142--146
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--164
+Underfull \hbox (badness 10000) in paragraph at lines 162--166
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--164
+Underfull \hbox (badness 10000) in paragraph at lines 162--166
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--176
+Underfull \hbox (badness 10000) in paragraph at lines 171--178
 
  []
 
-[5] (./report.aux) ) 
+[7] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 15357 strings out of 493304
- 265977 string characters out of 6139871
- 530359 words of memory out of 5000000
- 18476 multiletter control sequences out of 15000+600000
+ 15491 strings out of 493304
+ 267574 string characters out of 6139871
+ 591353 words of memory out of 5000000
+ 18600 multiletter control sequences out of 15000+600000
  14191 words of font info for 53 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  63i,10n,94p,441b,1755s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -910,10 +911,10 @@ c/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
 onts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti1
 2.pfb>
-Output written on report.pdf (6 pages, 173153 bytes).
+Output written on report.pdf (8 pages, 187959 bytes).
 PDF statistics:
- 85 PDF objects out of 1000 (max. 8388607)
- 61 compressed objects within 1 object stream
+ 93 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  18 words of extra memory for PDF output out of 10000 (max. 10000000)
 
