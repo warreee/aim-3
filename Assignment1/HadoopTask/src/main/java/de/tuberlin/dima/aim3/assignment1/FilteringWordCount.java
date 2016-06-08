@@ -4,7 +4,7 @@ import de.tuberlin.dima.aim3.HadoopJob;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Job;
+    import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
@@ -32,6 +32,7 @@ public class FilteringWordCount extends HadoopJob {
 
         Job wordCount = prepareJob(inputPath, outputPath, TextInputFormat.class, FilteringWordCountMapper.class,
                 Text.class, IntWritable.class, WordCountReducer.class, Text.class, IntWritable.class, TextOutputFormat.class);
+
         wordCount.waitForCompletion(true);
 
         return 0;
@@ -79,7 +80,6 @@ public class FilteringWordCount extends HadoopJob {
             int sum = 0;
             for (IntWritable value : values) {
                 sum += value.get();
-                System.out.println(sum);
             }
             ctx.write(key, new IntWritable(sum));
         }
