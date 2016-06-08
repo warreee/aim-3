@@ -1,0 +1,138 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{figures/}}
+\usepackage{todonotes}
+\usepackage{url}
+\usepackage{subcaption}
+%----------------------------------------------------------------------------------------
+%	CONFIGURATION OF CODE LISTINGS
+%----------------------------------------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\setcounter{section}{1}
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\textsc{\LARGE TU Berlin}}\\[1.5cm] % Name of your university/college
+\textsc{\Large Advanced Information Management}\\[0.5cm] % Major heading such as course name
+\textsc{\large Homework assignment 1}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Programming in Hadoop and Clustering Excercises}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Ward \textsc{Schodts} % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+Juan \textsc{Soto} \\ % Supervisor's Name
+
+\end{flushright}
+\end{minipage}\\[4cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+%\includegraphics[scale=0.15]{sedes}\\[1cm] % Include a department/university logo - this will require the graphicx package
+\begin{figure}
+    
+    \def\svgwidth{\columnwidth}
+    \scalebox{.2}{
+    \input{figures/logo.pdf_tex}}
+\end{figure}
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\section*{Programming in Hadoop}
+\subsection*{1. WordCount - "Hello World" of MapReduce}
+\lstinputlisting[language=Java, caption=FilteringWordCount.java]{../HadoopTask/src/main/java/de/tuberlin/dima/aim3/assignment1/FilteringWordCount.java}
+
+\subsection*{2. A custom Writable}
+\lstinputlisting[language=Java, caption=PrimeNumbersWritable.java]{../HadoopTask/src/main/java/de/tuberlin/dima/aim3/assignment1/PrimeNumbersWritable.java}
+
+\subsection*{3. Average temperature per month}
+\lstinputlisting[language=Java, caption=AverageTemperaturePerMonth.java]{../HadoopTask/src/main/java/de/tuberlin/dima/aim3/assignment1/AverageTemperaturePerMonth.java}
+
+\section*{Clustering}
+\subsection*{1. Metrics I}
+
+\end{document}
