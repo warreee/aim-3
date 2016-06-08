@@ -23,11 +23,16 @@ public class PrimeNumbersWritable implements Writable {
     @Override
     public void write(DataOutput out) throws IOException {
         out.writeInt(numbers.length);
-        for (int i : numbers) {
-            out.writeInt(i);
-        }
-
+        Arrays.stream(numbers).forEach((v) -> writeToOut(out, v));
     }
+
+    private void writeToOut(DataOutput out, int i) {
+        try {
+            out.writeInt(i);
+        } catch (IOException ignored) {
+        }
+    }
+
 
     @Override
     public void readFields(DataInput in) throws IOException {
