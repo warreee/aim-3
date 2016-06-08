@@ -132,7 +132,30 @@ Juan \textsc{Soto} \\ % Supervisor's Name
 \subsection*{3. Average temperature per month}
 \lstinputlisting[language=Java, caption=AverageTemperaturePerMonth.java]{../HadoopTask/src/main/java/de/tuberlin/dima/aim3/assignment1/AverageTemperaturePerMonth.java}
 
+\pagebreak
 \section*{Clustering}
 \subsection*{1. Metrics I}
+We have 3 points A(4,8), B(9,5) and C(2,2).\\
+The \textit{centroid} is then:
+$$ (x,y) = \left(\frac{4+9+2}{3},\frac{8+5+2}{3}\right)= (5,5)$$
+We now calculate the error towards the centroid for every point:\\
+\\
+A(4,8):
+
+$$\sqrt{(4-5)^2 + (8-5)^2} = \sqrt{10}$$
+\noindent
+B(9,5):
+
+$$\sqrt{(9-5)^2 + (5-5)^2} = \sqrt{16} = 4$$
+\noindent
+C(2,2):
+
+$$\sqrt{(2-5)^2 + (2-5)^2} = \sqrt{18} = 3\cdot\sqrt{2}$$
+
+\noindent
+The SSE is then:
+$$\sqrt{10}^2 + 4^2 + 3\cdot\sqrt{2}^2 = 44$$
+
+\subsection*{2. Metrics II}
 
 \end{document}
