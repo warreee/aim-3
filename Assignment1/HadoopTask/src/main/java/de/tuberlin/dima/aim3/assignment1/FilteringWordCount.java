@@ -4,7 +4,7 @@ import de.tuberlin.dima.aim3.HadoopJob;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-    import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
@@ -74,15 +75,14 @@ public class FilteringWordCount extends HadoopJob {
     }
 
     static class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+
         @Override
         protected void reduce(Text key, Iterable<IntWritable> values, Context ctx)
                 throws IOException, InterruptedException {
-            int sum = 0;
-            for (IntWritable value : values) {
-                sum += value.get();
-            }
-            ctx.write(key, new IntWritable(sum));
+
+            ctx.write(key, new IntWritable(StreamSupport.stream(values.spliterator(), false).mapToInt(IntWritable::get).sum()));
         }
+
     }
 
 }
