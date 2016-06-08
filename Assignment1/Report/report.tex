@@ -157,5 +157,20 @@ The SSE is then:
 $$\sqrt{10}^2 + 4^2 + 3\cdot\sqrt{2}^2 = 44$$
 
 \subsection*{2. Metrics II}
+If you partition 3 points into 2 clusters, there's one with one element and one with two.
+The SSE of 1 point is always 0. So the total SSE is only determined by the SSE of the possible combinations of two points.
+\\
+\\
+$$Centroid((3,0),(0,7))=(1.5,3.5)$$
+$$SSE((3,0),(0,7))=\sqrt{2.25+12.25}^2 + \sqrt{2.25+12.25}^2 = 29$$
+$$Centroid(((0,7),(6,5))=(3,6)$$
+$$SSE(((0,7),(6,5))=\sqrt{9+1}^2 + \sqrt{9+1}^2 = 20$$
+$$Centroid((3,0),(6,5))=(4.5,2.5)$$
+$$SSE((3,0),(6,5))=\sqrt{2.25+6.25}^2 + \sqrt{2.25+6.25}^2 = 17$$
 
+The SSE is the smallest in the last configuration therefore the the most optimal split in two groups is the following:
+\\
+\\
+Cluster 1: [(0,7)]\\
+Cluster 2: [(3,0),(6,5)]
 \end{document}
