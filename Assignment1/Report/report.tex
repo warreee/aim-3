@@ -49,6 +49,20 @@
  
 \lstset{style=mystyle}
 
+
+
+\usepackage{pdflscape}
+
+\usepackage[
+    backend=biber,
+    url=true
+]{biblatex}
+\addbibresource{bibtex.bib}
+\usepackage[colorlinks]{hyperref}	
+\hypersetup{
+	urlcolor = blue
+}
+
 \setcounter{section}{1}
 
 \begin{document}
@@ -175,4 +189,177 @@ The SSE is the smallest in the last configuration therefore the the most optimal
 \\
 Cluster 1: [(0,7)]\\
 Cluster 2: [(3,0),(6,5)]
+
+\subsection*{3. CURE Algorithm}
+x = (0,0); y = (10,10), a = (1,6); b = (3,7); c = (4,3); d = (7,7), e = (8,2); f = (9,5)
+As was stated in the question, the two furthest points are x and y. So we start by calculating the distance to them.
+\begin{table}[H]
+\centering
+\def\arraystretch{1.2}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+
+\hline 
+$D(.,.)$ & a & b & c & d & e & f \\ 
+\hline 
+x & $\sqrt{37}$ & $\sqrt{58}$ & 5 & $\sqrt{98}$ & $\sqrt{68}$ & $\sqrt{106}$ \\ 
+\hline 
+y & $\sqrt{97}$ & $\sqrt{58}$ & $\sqrt{85}$ & $\sqrt{18}$ & $\sqrt{68}$ & $\sqrt{26}$ \\ 
+\hline 
+\end{tabular} 
+\end{table}
+\noindent
+Of all the points the minimum value for $e$ is a maximum, so $e$ is added first. $\rightarrow$ (b) is false.
+\\
+\\
+Now we do the same again for $e$:
+
+
+\begin{table}[H]
+\centering
+\def\arraystretch{1.2}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline 
+$D(.,.)$ & a & b & c & d & e & f \\ 
+\hline 
+x & $\sqrt{37}$ & $\sqrt{58}$ & 5 & $\sqrt{98}$ & $\sqrt{68}$ & $\sqrt{106}$ \\ 
+\hline 
+y & $\sqrt{97}$ & $\sqrt{58}$ & $\sqrt{85}$ & $\sqrt{18}$ & $\sqrt{68}$ & $\sqrt{26}$ \\ 
+\hline
+e & $\sqrt{65}$ & $\sqrt{50}$ & $\sqrt{17}$ & $\sqrt{26}$ & /// & $\sqrt{10}$ \\
+\hline 
+\end{tabular} 
+\end{table}
+\noindent
+Of all the points the minimum value for $b$ is a maximum, so $b$ is added next. $\rightarrow$ (d) is true.
+\\
+\\
+We calculate the distance w.r.t. $b$:
+
+\begin{table}[H]
+\centering
+\def\arraystretch{1.2}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline 
+$D(.,.)$ & a & b & c & d & e & f \\ 
+\hline 
+x & $\sqrt{37}$ & $\sqrt{58}$ & 5 & $\sqrt{98}$ & $\sqrt{68}$ & $\sqrt{106}$ \\ 
+\hline 
+y & $\sqrt{97}$ & $\sqrt{58}$ & $\sqrt{85}$ & $\sqrt{18}$ & $\sqrt{68}$ & $\sqrt{26}$ \\ 
+\hline
+e & $\sqrt{65}$ & $\sqrt{50}$ & $\sqrt{17}$ & $\sqrt{26}$ & /// & $\sqrt{10}$ \\
+\hline
+b & $\sqrt{5}$ & /// & $\sqrt{17}$ & $\sqrt{16}$ & $\sqrt{50}$ & $\sqrt{40}$ \\
+\hline 
+\end{tabular} 
+\end{table}
+\noindent
+Of all the points the minimum value for $c$ is a maximum, so $c$ is added third. $\rightarrow$ (a) and (c) are false.
+\\
+\\
+We calculate the distance w.r.t. $c$:
+
+\begin{table}[H]
+\centering
+\def\arraystretch{1.2}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline 
+$D(.,.)$ & a & b & c & d & e & f \\ 
+\hline 
+x & $\sqrt{37}$ & $\sqrt{58}$ & 5 & $\sqrt{98}$ & $\sqrt{68}$ & $\sqrt{106}$ \\ 
+\hline 
+y & $\sqrt{97}$ & $\sqrt{58}$ & $\sqrt{85}$ & $\sqrt{18}$ & $\sqrt{68}$ & $\sqrt{26}$ \\ 
+\hline
+e & $\sqrt{65}$ & $\sqrt{50}$ & $\sqrt{17}$ & $\sqrt{26}$ & /// & $\sqrt{10}$ \\
+\hline
+b & $\sqrt{5}$ & /// & $\sqrt{17}$ & $\sqrt{16}$ & $\sqrt{50}$ & $\sqrt{40}$ \\
+\hline 
+c & $\sqrt{18}$ & $\sqrt{17}$ & /// & 5 & $\sqrt{17}$ & $\sqrt{29}$ \\
+\hline 
+\end{tabular} 
+\end{table}
+\noindent
+Of all the points the minimum value for $d$ is a maximum, so $d$ is added fourth. 
+\\
+\\
+We calculate the distance w.r.t. $d$:
+
+\begin{table}[H]
+\centering
+\def\arraystretch{1.2}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline 
+$D(.,.)$ & a & b & c & d & e & f \\ 
+\hline 
+x & $\sqrt{37}$ & $\sqrt{58}$ & 5 & $\sqrt{98}$ & $\sqrt{68}$ & $\sqrt{106}$ \\ 
+\hline 
+y & $\sqrt{97}$ & $\sqrt{58}$ & $\sqrt{85}$ & $\sqrt{18}$ & $\sqrt{68}$ & $\sqrt{26}$ \\ 
+\hline
+e & $\sqrt{65}$ & $\sqrt{50}$ & $\sqrt{17}$ & $\sqrt{26}$ & /// & $\sqrt{10}$ \\
+\hline
+b & $\sqrt{5}$ & /// & $\sqrt{17}$ & 4 & $\sqrt{50}$ & $\sqrt{40}$ \\
+\hline 
+c & $\sqrt{18}$ & $\sqrt{17}$ & /// & 5 & $\sqrt{17}$ & $\sqrt{29}$ \\
+\hline 
+d & $\sqrt{37}$ & $\sqrt{16}$ & $\sqrt{17}$ & /// & $\sqrt{26}$ & $\sqrt{8}$ \\
+\hline
+\end{tabular} 
+\end{table}
+\noindent
+Of all the points,now the minimum value for $f$ is a maximum, so $f$ is added fifth. Obviously $a$ is added as last.
+
+\begin{landscape}
+\subsection*{4. A Comparative Analysis of Clustering Algorithms}
+\begin{table}[H]
+\def\arraystretch{1.2}
+\begin{tabular}{p{2cm}||p{5.5cm}|p{5.5cm}|p{5.5cm}|p{5.5cm}}
+&K-Means&CURE: Clustering Using Representatives& BIRCH: Balanced Iterative Reducing and Clustering using Hierarchies & DBSCAN: Density-based Spatial Clustering of Applications with Noise \\
+\hline
+\hline Type &
+\begin{itemize}
+\itemsep0em
+\item Partitioning method
+\item Point assignment
+\end{itemize}
+& 
+\begin{itemize}
+\item Partitioning
+\item Hierarchical method
+\item Random sampling
+\end{itemize}
+
+&
+Hierarchical method
+&
+Density-based method\\
+
+
+\hline
+Space complexity&5&$\mathcal{O}(n)$&A little more than one scan of the data, i.e. almost linear.
+&$\mathcal{O}(n)$\\
+
+
+\hline Time complexity
+&$\mathcal{O}(kind)$ with $i$ number of iterations, $n$ number of points, $k$ number of clusters and $d$ the dimensionality of the data. 
+&$\mathcal{O}(n^2\log{n})$ if the dimensionality is low it reduces to $\mathcal{O}(n^2)$
+&
+$\mathcal{O}(n^2)$
+&
+\begin{itemize}
+\item $\mathcal{O}(n\log{n})$: with KD-trees
+\item $\mathcal{O}(n^2)$: without KD-trees
+\end{itemize}
+\\
+\hline
+Applicability&Easy and simple to implement. You get pure subclusters if specify a high enough number of clusters&5&Does not require whole data set in advance. Can handle noise&5\\
+\hline
+Limitations&\begin{itemize} \itemsep0em \item Does not work for really big datasets. Some optimisation is needed then. \item Cannot handle outliers \end{itemize}&5&Cannot correct erroneous merges or splits&5\\
+
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\nocite{*}
+\printbibliography
+
+
 \end{document}
