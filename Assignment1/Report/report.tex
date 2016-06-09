@@ -315,13 +315,16 @@ Of all the points,now the minimum value for $f$ is a maximum, so $f$ is added fi
 &K-Means&CURE: Clustering Using Representatives& BIRCH: Balanced Iterative Reducing and Clustering using Hierarchies & DBSCAN: Density-based Spatial Clustering of Applications with Noise \\
 \hline
 \hline Type &
+\vspace{-\topsep}
 \begin{itemize}
 \itemsep0em
 \item Partitioning method
 \item Point assignment
 \end{itemize}
 & 
+\vspace{-\topsep}
 \begin{itemize}
+\itemsep0em
 \item Partitioning
 \item Hierarchical method
 \item Random sampling
@@ -334,25 +337,80 @@ Density-based method\\
 
 
 \hline
-Space complexity&5&$\mathcal{O}(n)$&A little more than one scan of the data, i.e. almost linear.
+Space complexity
+&
+$\mathcal{O}((n+k)d)$
+&
+$\mathcal{O}(n)$&A little more than one scan of the data, i.e. almost linear.
 &$\mathcal{O}(n)$\\
 
 
 \hline Time complexity
 &$\mathcal{O}(kind)$ with $i$ number of iterations, $n$ number of points, $k$ number of clusters and $d$ the dimensionality of the data. 
-&$\mathcal{O}(n^2\log{n})$ if the dimensionality is low it reduces to $\mathcal{O}(n^2)$
+
+&
+\vspace{-\topsep}
+\begin{itemize}
+\itemsep0em
+\item $\mathcal{O}(n^2\log{n})$ 
+\item if the dimensionality is low it reduces to $\mathcal{O}(n^2)$
+\end{itemize}
 &
 $\mathcal{O}(n^2)$
 &
+\vspace{-\topsep}
 \begin{itemize}
+\itemsep0em
 \item $\mathcal{O}(n\log{n})$: with KD-trees
 \item $\mathcal{O}(n^2)$: without KD-trees
 \end{itemize}
 \\
 \hline
-Applicability&Easy and simple to implement. You get pure subclusters if specify a high enough number of clusters&5&Does not require whole data set in advance. Can handle noise&5\\
+Applicability&
+Easy and simple to implement. You get pure subclusters if specify a high enough number of clusters
+
+&
+\vspace{-\topsep}
+\begin{itemize} 
+\itemsep0em 
+\item Clusters can have any shape
+\item Assumes points are in euclidean space
+
+\end{itemize}
+
+&Does not require whole data set in advance. Can handle noise
+&
+\vspace{-\topsep}
+\begin{itemize} 
+\itemsep0em 
+\item Can handle clusters of arbitrary size
+\item Assumes points are in euclidean space
+
+\end{itemize}
+\\
 \hline
-Limitations&\begin{itemize} \itemsep0em \item Does not work for really big datasets. Some optimisation is needed then. \item Cannot handle outliers \end{itemize}&5&Cannot correct erroneous merges or splits&5\\
+
+
+Limitations&
+\vspace{-\topsep}
+\begin{itemize} 
+\itemsep0em 
+\item Does not work for really big datasets. Some optimisation is needed then. 
+\item Cannot handle outliers 
+\item K needs to be predetermined
+\end{itemize}
+
+&5
+&
+\vspace{-\topsep}
+\begin{itemize}
+\itemsep0em 
+\item Cannot identify clusters that have non-spherical shapes
+\item Cannot correct erroneous merges or splits
+\end{itemize}
+
+&5
+\\
 
 \end{tabular}
 \end{table}
