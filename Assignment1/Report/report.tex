@@ -2,7 +2,7 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[11pt,a4paper]{article}
+\documentclass[11pt,a4paper,oneside]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -64,10 +64,14 @@
 }
 
 \setcounter{section}{1}
+\usepackage{afterpage}
+
+\usepackage{enumitem}
 
 \begin{document}
 
 \begin{titlepage}
+
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
 
@@ -306,24 +310,24 @@ d & $\sqrt{37}$ & $\sqrt{16}$ & $\sqrt{17}$ & /// & $\sqrt{26}$ & $\sqrt{8}$ \\
 \end{table}
 \noindent
 Of all the points,now the minimum value for $f$ is a maximum, so $f$ is added fifth. Obviously $a$ is added as last.
-
+\afterpage{
 \begin{landscape}
+\begin{table}[p!]
 \subsection*{4. A Comparative Analysis of Clustering Algorithms}
-\begin{table}[H]
 \def\arraystretch{1.2}
 \begin{tabular}{p{2cm}||p{5.5cm}|p{5.5cm}|p{5.5cm}|p{5.5cm}}
 &K-Means&CURE: Clustering Using Representatives& BIRCH: Balanced Iterative Reducing and Clustering using Hierarchies & DBSCAN: Density-based Spatial Clustering of Applications with Noise \\
 \hline
 \hline Type &
 \vspace{-\topsep}
-\begin{itemize}
+\begin{itemize}[leftmargin=*]
 \itemsep0em
 \item Partitioning method
 \item Point assignment
 \end{itemize}
 & 
 \vspace{-\topsep}
-\begin{itemize}
+\begin{itemize}[leftmargin=*]
 \itemsep0em
 \item Partitioning
 \item Hierarchical method
@@ -350,74 +354,112 @@ $\mathcal{O}(n)$&A little more than one scan of the data, i.e. almost linear.
 
 &
 \vspace{-\topsep}
-\begin{itemize}
+\begin{itemize}[leftmargin=*]
 \itemsep0em
 \item $\mathcal{O}(n^2\log{n})$ 
 \item if the dimensionality is low it reduces to $\mathcal{O}(n^2)$
 \end{itemize}
 &
-$\mathcal{O}(n^2)$
+\vspace{-\topsep}
+\begin{itemize}[leftmargin=*]
+\itemsep0em
+\item $\mathcal{O}(n^3)$
+\item Priority queue: $\mathcal{O}(n^2\log{n})$
+\end{itemize}
 &
 \vspace{-\topsep}
-\begin{itemize}
+\begin{itemize}[leftmargin=*]
 \itemsep0em
 \item $\mathcal{O}(n\log{n})$: with KD-trees
 \item $\mathcal{O}(n^2)$: without KD-trees
 \end{itemize}
 \\
 \hline
-Applicability&
-Easy and simple to implement. You get pure subclusters if specify a high enough number of clusters
-
+Applicability \& advantages&
+\vspace{-\topsep}
+\begin{itemize}[leftmargin=*]
+\itemsep0em
+\item Easy and simple to implement. 
+\item You get pure subclusters if you specify a high enough number of clusters
+\end{itemize}
 &
 \vspace{-\topsep}
-\begin{itemize} 
+\begin{itemize}[leftmargin=*] 
 \itemsep0em 
 \item Clusters can have any shape
 \item Assumes points are in euclidean space
 
 \end{itemize}
 
-&Does not require whole data set in advance. Can handle noise
 &
 \vspace{-\topsep}
-\begin{itemize} 
+\begin{itemize}[leftmargin=*] 
 \itemsep0em 
-\item Can handle clusters of arbitrary size
-\item Assumes points are in euclidean space
+\item Very large data sets
+\item Does not require whole data set in advance. 
+\item Can handle noise
+\end{itemize}
+
+&
+\vspace{-\topsep}
+\begin{itemize}[leftmargin=*]
+\itemsep0em 
+\item Can handle clusters of arbitrary shape
+\item Scalability
+\item Robust for outliers
 
 \end{itemize}
 \\
 \hline
 
 
-Limitations&
+Limitations \& disadvantages&
 \vspace{-\topsep}
-\begin{itemize} 
+\begin{itemize}[leftmargin=*]
 \itemsep0em 
 \item Does not work for really big datasets. Some optimisation is needed then. 
 \item Cannot handle outliers 
 \item K needs to be predetermined
 \end{itemize}
 
-&5
+&
+The algorithm cannot be directly applied to large databases because of the high runtime complexity.
 &
 \vspace{-\topsep}
-\begin{itemize}
+\begin{itemize}[leftmargin=*]
 \itemsep0em 
 \item Cannot identify clusters that have non-spherical shapes
 \item Cannot correct erroneous merges or splits
 \end{itemize}
 
-&5
+&
+\vspace{-\topsep}
+\begin{itemize}[leftmargin=*]
+\itemsep0em 
+\item Performance dependent on parameters
+\item Not partitionable for multi-processor systems
+\end{itemize}
 \\
+\hline
+Assumptions & Clusters normally distributed & Points are in eucledian space& 
+A changing order of iteration shouldn't have a too big influence on the output& No number of clusters needs to be assumed. Relies on density\\
 
 \end{tabular}
 \end{table}
+
 \end{landscape}
 
+}
+
+\clearpage
 \nocite{*}
 \printbibliography
+
+
+
+
+
+
 
 
 \end{document}
