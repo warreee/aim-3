@@ -42,3 +42,6 @@ hs_err_pid*
 *.mtc1
 *.out
 *.synctex.gz
+aim3-SS16-Ward_Schodts.zip
+*.run.xml
+*.bcf
