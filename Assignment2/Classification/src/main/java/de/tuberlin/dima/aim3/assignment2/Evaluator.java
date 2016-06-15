@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.tuberlin.dima.aim3.assignment4;
+package de.tuberlin.dima.aim3.assignment2;
 
+import de.tuberlin.dima.aim3.assignment2.Config;
 import org.apache.flink.api.common.functions.GroupReduceFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.DataSet;

@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.tuberlin.dima.aim3.assignment4;
+package de.tuberlin.dima.aim3.assignment2;
 
 public class Config {
 
-  private static final String INPUT_PATH = "/home/ssc/Entwicklung/projects/aim3/src/test/resources/assignment2/";
+  private static final String INPUT_PATH = "/home/warreee/projects/2016-SS-Assignments/Assignment2/Classification/src/test/resources/assignment2/";
   private static final String OUTPUT_PATH = "/tmp/assi2/";
 
   private Config() {}
