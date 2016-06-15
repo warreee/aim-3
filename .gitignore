@@ -4,6 +4,9 @@
 *.pyc
 .ipynb_checkpoints/
 target/
+.classpath
+.settings/
+.project
 .DS_Store
 *~
 
@@ -45,3 +48,9 @@ hs_err_pid*
 aim3-SS16-Ward_Schodts.zip
 *.run.xml
 *.bcf
+*.aux
+*.fdb_latexmk
+*.log
+*.synctex.gz
+ENV/
+
