@@ -19,7 +19,9 @@
 package de.tuberlin.dima.aim3.assignment2;
 
 
+import com.amazonaws.services.cloudfront.model.InvalidArgumentException;
 import com.google.common.collect.Maps;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.java.DataSet;
@@ -30,6 +32,7 @@ import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.core.fs.FileSystem;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -79,16 +82,39 @@ public class Classification {
 
         private final Map<String, Map<String, Long>> wordCounts = Maps.newHashMap();
         private final Map<String, Long> wordSums = Maps.newHashMap();
+        private final Map<String, Map<String, Double>> probabilities = Maps.newHashMap();
 
         @Override
         public void open(Configuration parameters) throws Exception {
             super.open(parameters);
 
             List<Tuple3<String, String, Long>> conditionals = getRuntimeContext().getBroadcastVariable("conditionals");
+            for (Tuple3<String, String, Long> tup3 : conditionals) {
+                if (wordCounts.containsKey(tup3.f0)) {
+                    wordCounts.get(tup3.f0).put(tup3.f1, tup3.f2);
+                } else {
+                    Map<String, Long> temp = Maps.newHashMap();
+                    temp.put(tup3.f1, tup3.f2);
+                    wordCounts.put(tup3.f0, temp);
+                }
+            }
             List<Tuple2<String, Long>> sums = getRuntimeContext().getBroadcastVariable("sums");
+            for (Tuple2<String, Long> tup2 : sums) {
+                wordSums.put(tup2.f0, tup2.f1);
+            }
 
+            for (String category : wordSums.keySet()) {
+                double sum = (double) wordSums.get(category);
+                Map<String, Long> temp = wordCounts.get(category);
+                Map<String, Double> innerProb = Maps.newHashMap();
+                probabilities.put(category, innerProb);
 
-
+                for (String word : temp.keySet()) {
+                    double documentSum = (double) temp.get(word);
+                    double probability = documentSum / sum;
+                    probabilities.get(category).put(word, probability);
+                }
+            }
         }
 
         @Override
