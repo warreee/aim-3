@@ -32,9 +32,11 @@ import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.core.fs.FileSystem;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class Classification {
 
@@ -82,7 +84,8 @@ public class Classification {
 
         private final Map<String, Map<String, Long>> wordCounts = Maps.newHashMap();
         private final Map<String, Long> wordSums = Maps.newHashMap();
-        private final Map<String, Map<String, Double>> probabilities = Maps.newHashMap();
+        private final double smoothing = (double) Config.getSmoothingParameter();
+        private int distinctTerms = 0;
 
         @Override
         public void open(Configuration parameters) throws Exception {
@@ -100,21 +103,11 @@ public class Classification {
             }
             List<Tuple2<String, Long>> sums = getRuntimeContext().getBroadcastVariable("sums");
             for (Tuple2<String, Long> tup2 : sums) {
-                wordSums.put(tup2.f0, tup2.f1);
+                wordSums.put(tup2.f0, (long) wordCounts.get(tup2.f0).size());
             }
-
-            for (String category : wordSums.keySet()) {
-                double sum = (double) wordSums.get(category);
-                Map<String, Long> temp = wordCounts.get(category);
-                Map<String, Double> innerProb = Maps.newHashMap();
-                probabilities.put(category, innerProb);
-
-                for (String word : temp.keySet()) {
-                    double documentSum = (double) temp.get(word);
-                    double probability = documentSum / sum;
-                    probabilities.get(category).put(word, probability);
-                }
-            }
+            Map<String, Long> temp = Maps.newHashMap();
+            wordCounts.values().forEach(temp::putAll);
+            distinctTerms = temp.size();
         }
 
         @Override
@@ -127,10 +120,31 @@ public class Classification {
             double maxProbability = Double.NEGATIVE_INFINITY;
             String predictionLabel = "";
 
-            // IMPLEMENT ME
+            for (String category : wordSums.keySet()) {
+                double logProbability = calculateLogProbability(category, terms);
+                if (logProbability > maxProbability) {
+                    maxProbability = logProbability;
+                    predictionLabel = category;
+                }
+            }
 
             // label is here the actual label
             return new Tuple3<String, String, Double>(label, predictionLabel, maxProbability);
+        }
+        int counter = 0;
+        private double calculateLogProbability(String category, String[] terms) {
+            System.out.println(counter++);
+            double tel = Arrays.stream(terms).mapToDouble(term -> {
+                double temp = 0;
+                if (wordCounts.get(category).containsKey(term)) {
+                    temp = Math.log(wordCounts.get(category).get(term) + this.smoothing);
+                } else {
+                    temp = Math.log(this.smoothing);
+                }
+                return temp;
+            }).sum();
+
+            return tel - terms.length * Math.log(wordSums.get(category) + this.smoothing * distinctTerms);
         }
 
     }
