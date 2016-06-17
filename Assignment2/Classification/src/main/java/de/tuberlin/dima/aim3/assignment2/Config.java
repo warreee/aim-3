@@ -46,7 +46,7 @@ public class Config {
   }
 
   public static Long getSmoothingParameter() {
-    return 1L;
+    return 10L;
   }
 
 }

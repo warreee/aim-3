@@ -19,9 +19,7 @@
 package de.tuberlin.dima.aim3.assignment2;
 
 
-import com.amazonaws.services.cloudfront.model.InvalidArgumentException;
 import com.google.common.collect.Maps;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.java.DataSet;
@@ -33,10 +31,8 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.core.fs.FileSystem;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class Classification {
 
@@ -66,7 +62,7 @@ public class Classification {
         @Override
         public Tuple3<String, String, Long> map(String s) throws Exception {
             String[] elements = s.split("\t");
-            return new Tuple3<String, String, Long>(elements[0], elements[1], Long.parseLong(elements[2]));
+            return new Tuple3<>(elements[0], elements[1], Long.parseLong(elements[2]));
         }
     }
 
@@ -75,7 +71,7 @@ public class Classification {
         @Override
         public Tuple2<String, Long> map(String s) throws Exception {
             String[] elements = s.split("\t");
-            return new Tuple2<String, Long>(elements[0], Long.parseLong(elements[1]));
+            return new Tuple2<>(elements[0], Long.parseLong(elements[1]));
         }
     }
 
@@ -129,22 +125,29 @@ public class Classification {
             }
 
             // label is here the actual label
-            return new Tuple3<String, String, Double>(label, predictionLabel, maxProbability);
+            return new Tuple3<>(label, predictionLabel, maxProbability);
         }
-        int counter = 0;
-        private double calculateLogProbability(String category, String[] terms) {
-            System.out.println(counter++);
-            double tel = Arrays.stream(terms).mapToDouble(term -> {
-                double temp = 0;
-                if (wordCounts.get(category).containsKey(term)) {
-                    temp = Math.log(wordCounts.get(category).get(term) + this.smoothing);
-                } else {
-                    temp = Math.log(this.smoothing);
-                }
-                return temp;
-            }).sum();
 
-            return tel - terms.length * Math.log(wordSums.get(category) + this.smoothing * distinctTerms);
+        private double calculateLogProbability(String category, String[] terms) {
+
+            double[] perTerm = new double[terms.length];
+            int i = 0;
+            for (String term : terms) {
+                double tel;
+                double noe;
+                if (wordCounts.get(category).containsKey(term)) {
+                    tel = wordCounts.get(category).get(term) + smoothing;
+                    noe = wordSums.get(category) + (smoothing * distinctTerms);
+
+                } else {
+                    tel = smoothing;
+                    noe = wordSums.get(category) + (smoothing * distinctTerms);
+                }
+
+                perTerm[i] = Math.log(tel / noe);
+            }
+            return Arrays.stream(perTerm).sum();
+
         }
 
     }
