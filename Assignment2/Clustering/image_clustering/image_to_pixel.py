@@ -5,7 +5,7 @@
 
 from PIL import Image
 
-data_path = "data/"
+data_path = "/home/warreee/projects/aim-3/Assignment2/Clustering/image_clustering/data/"
 image_name = "robocup.jpg"
 pixel_name = "robocup.csv"
 
