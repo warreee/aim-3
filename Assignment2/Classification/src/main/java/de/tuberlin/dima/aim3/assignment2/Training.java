@@ -49,7 +49,7 @@ public class Training {
         termCounts.writeAsCsv(Config.pathToConditionals(), "\n", "\t", FileSystem.WriteMode.OVERWRITE);
 
         // word counts per label
-        DataSet<Tuple2<String, Long>> termLabelCounts = input.flatMap(new DataReader2()).groupBy(0).aggregate(Aggregations.SUM, 1); // IMPLEMENT ME
+        DataSet<Tuple2<String, Long>> termLabelCounts = termCounts.groupBy(0).aggregate(Aggregations.SUM, 2).project(0,2).types(String.class, Long.class); // IMPLEMENT ME
 
         termLabelCounts.writeAsCsv(Config.pathToSums(), "\n", "\t", FileSystem.WriteMode.OVERWRITE);
 

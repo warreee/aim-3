@@ -20,8 +20,8 @@ package de.tuberlin.dima.aim3.assignment2;
 
 public class Config {
 
-  private static final String INPUT_PATH = "/home/warreee/projects/2016-SS-Assignments/Assignment2/Classification/src/test/resources/assignment2/";
-  private static final String OUTPUT_PATH = "/home/warreee/projects/2016-SS-Assignments/Assignment2/Classification/tmp/";
+  private static final String INPUT_PATH = "/home/warreee/projects/aim-3/Assignment2/Classification/src/test/resources/assignment2/";
+  private static final String OUTPUT_PATH = "/home/warreee/projects/aim-3/Assignment2/Classification/tmp/";
 
   private Config() {}
 
@@ -46,7 +46,7 @@ public class Config {
   }
 
   public static Long getSmoothingParameter() {
-    return 10L;
+    return 1L;
   }
 
 }

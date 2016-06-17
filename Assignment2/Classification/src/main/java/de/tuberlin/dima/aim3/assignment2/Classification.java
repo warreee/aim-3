@@ -99,7 +99,7 @@ public class Classification {
             }
             List<Tuple2<String, Long>> sums = getRuntimeContext().getBroadcastVariable("sums");
             for (Tuple2<String, Long> tup2 : sums) {
-                wordSums.put(tup2.f0, (long) wordCounts.get(tup2.f0).size());
+                wordSums.put(tup2.f0, tup2.f1);
             }
             Map<String, Long> temp = Maps.newHashMap();
             wordCounts.values().forEach(temp::putAll);
@@ -145,6 +145,7 @@ public class Classification {
                 }
 
                 perTerm[i] = Math.log(tel / noe);
+                i++;
             }
             return Arrays.stream(perTerm).sum();
 
