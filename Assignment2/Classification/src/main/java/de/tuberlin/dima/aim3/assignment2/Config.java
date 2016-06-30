@@ -32,6 +32,9 @@ public class Config {
   public static String pathToTestSet() {
     return INPUT_PATH + "test.tab";
   }
+  public static String pathToSecretTestSet() {
+    return INPUT_PATH + "secrettest.dat";
+  }
 
   public static String pathToOutput() {
     return OUTPUT_PATH + "result";
