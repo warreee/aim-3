@@ -35,6 +35,7 @@ public class Evaluator {
 
         DataSource<String> predictions = env.readTextFile(Config.pathToOutput());
         DataSet<Tuple3<String, String, Double>> classifiedDataPoints = predictions.map(new ConditionalReader());
+
         DataSet<String> evaluation = classifiedDataPoints.reduceGroup(new Evaluate());
 
         evaluation.print();

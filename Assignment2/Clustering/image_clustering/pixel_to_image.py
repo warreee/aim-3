@@ -4,9 +4,9 @@
 
 from PIL import Image
 
-data_path = "data/"
-pixel_name = "robocup_reduced.csv"
-image_name = "robocup_recreated.jpg"
+data_path = "/home/warreee/projects/2016-SS-Assignments/Assignment2/Clustering/image_clustering/data/"
+pixel_name = "robocup_reduced2.csv"
+image_name = "robocup_recreated2.jpg"
 
 im = Image.new('RGB', (256, 385))
 
