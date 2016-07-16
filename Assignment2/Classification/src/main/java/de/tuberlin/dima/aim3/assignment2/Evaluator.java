@@ -40,7 +40,7 @@ public class Evaluator {
 
         evaluation.print();
 
-        //env.execute();
+        env.execute();
     }
 
     public static class ConditionalReader implements MapFunction<String, Tuple3<String, String, Double>> {

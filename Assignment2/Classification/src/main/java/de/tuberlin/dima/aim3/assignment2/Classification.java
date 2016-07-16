@@ -80,7 +80,7 @@ public class Classification {
 
         private final Map<String, Map<String, Long>> wordCounts = Maps.newHashMap();
         private final Map<String, Long> wordSums = Maps.newHashMap();
-        private final double smoothing = (double) Config.getSmoothingParameter();
+        private final double smoothing = 0.00001;//(double) Config.getSmoothingParameter();
         private int distinctTerms = 0;
 
         @Override
