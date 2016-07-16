@@ -7,8 +7,8 @@ import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.java.operators.DataSource;
 import org.apache.flink.api.java.tuple.Tuple1;
-import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
@@ -47,7 +47,7 @@ public class TaxiMonitorStub {
         DataStream<Tuple4<Integer, Integer, Double, Long>> carData = env.addSource(CarSource.create(numOfCars));
 
         // Set the mode to s or p.
-        String mode = params.get("mode", "s");
+        String mode = params.get("mode", "p");
         if (mode.equals("s")) {
             System.err.println("Mode = Speed");
         } else {
@@ -55,16 +55,15 @@ public class TaxiMonitorStub {
             System.err.println("Mode = Parking");
         }
 
-        DataStream<Tuple4<Integer, Integer, Double, Long>> output = null;
+        DataStream<Tuple1<String>> output = null;
 
         if (mode.equals("s")) {
-            output = higherThan50(carData);
+            output = higherThan50(carData).map(new Over50Alert());
         } else {
-            output = parkingSince5Seconds(carData);
+            output = parkingSince5Seconds(carData).map(new ParkingOver5seconds());
         }
 
         output.print();
-        env.setParallelism(1);
         env.execute("TaxiMonitor");
     }
 
@@ -99,47 +98,10 @@ public class TaxiMonitorStub {
     public static DataStream<Tuple4<Integer, Integer, Double, Long>> parkingSince5Seconds(
             DataStream<Tuple4<Integer, Integer, Double, Long>> input) {
 
-        DataStream<Tuple4<Integer, Integer, Double, Long>> test = input.keyBy(0).flatMap(new ParkedCars());
-        return test.assignTimestampsAndWatermarks(new CarTimestamp());
+        DataStream<Tuple4<Integer, Integer, Double, Long>> parkedCars = input.keyBy(0).flatMap(new ParkedCars());
+        return parkedCars;
     }
 
-    private static final HashMap<Integer, ArrayList<Long>> temp = new HashMap<>();
-
-    public static boolean testMethod(Integer id, Integer speed, Long time) {
-
-        if (speed == 0) {
-            if (temp.containsKey(id)) {
-                temp.get(id).add(time);
-                return false;
-            } else {
-                ArrayList<Long> list = new ArrayList<>();
-                list.add(time);
-                temp.put(id, list);
-                return false;
-            }
-        } else {
-            if (temp.containsKey(id)) {
-                temp.get(id).add(time);
-                return timeCheck(temp, id);
-            } else {
-                return false;
-            }
-        }
-    }
-
-    private static boolean timeCheck(HashMap<Integer, ArrayList<Long>> state, Integer id) {
-        ArrayList<Long> timeList = state.get(id);
-        if ((timeList.get(timeList.size() - 2) - timeList.get(0)) >= 5000L) {
-            System.out.println("Beginstate " + timeList.get(0));
-            System.out.println("Endstate " + timeList.get(timeList.size() - 2));
-            System.out.println("Elapsedtime " + (timeList.get(timeList.size() - 2) - timeList.get(0)));
-            state.remove(id);
-            return true;
-        } else {
-            return false;
-        }
-
-    }
 
     public static class CarSource implements SourceFunction<Tuple4<Integer, Integer, Double, Long>> {
 
@@ -196,13 +158,13 @@ public class TaxiMonitorStub {
                             if (rand.nextBoolean()) {
                                 speeds[carId] = Math.min(65, speeds[carId] + 5);
                             } else {
-                                speeds[carId] = Math.max(40, speeds[carId] - 5);
+                                speeds[carId] = Math.max(0, speeds[carId] - 5);
                             }
                             if (carStopId == -1) {
                                 if (rand.nextBoolean()) {
                                     speeds[carId] = 0;
                                     carStopId = carId;
-                                    carStopAmount = 50;
+                                    carStopAmount = randomRange(40,60);
                                 }
                             }
                         } else {
@@ -215,7 +177,7 @@ public class TaxiMonitorStub {
                     } else {
                         speeds[carId] = 0;
                         carStopAmount--;
-                        System.out.println("=====" + carStopAmount);
+
                         if (carStopAmount <= 0) {
                             carStopAmount = 0;
                             carStopId = -1;
@@ -230,6 +192,11 @@ public class TaxiMonitorStub {
                 }
             }
         }
+
+        public int randomRange(int min, int max) {
+            return min + (int)(Math.random() * ((max - min) + 1));
+        }
+
 
         @Override
         public void cancel() {
@@ -246,18 +213,18 @@ public class TaxiMonitorStub {
 
         public void flatMap(Tuple4<Integer, Integer, Double, Long> in, Collector<Tuple4<Integer, Integer, Double, Long>> collector) throws Exception {
             HashMap<Integer, List<Tuple4<Integer, Integer, Double, Long>>> newStates;
-            if (states.value().f0 == null){
+            if (states.value().f0 == null) {
                 newStates = new HashMap<>();
             } else {
                 newStates = states.value().f0;
             }
 
-            if (in.f1 != 0){
-                if (newStates.containsKey(in.f0)){
+            if (in.f1 != 0) {
+                if (newStates.containsKey(in.f0)) {
                     newStates.remove(in.f0);
                 }
             } else {
-                if (newStates.containsKey(in.f0)){
+                if (newStates.containsKey(in.f0)) {
                     newStates.get(in.f0).add(in);
                     checkNewAdded(in.f0, newStates, in, collector);
                 } else {
@@ -269,15 +236,15 @@ public class TaxiMonitorStub {
             states.update(new Tuple1<>(newStates));
         }
 
-        private void checkNewAdded(Integer id, HashMap<Integer, List<Tuple4<Integer, Integer, Double, Long>>> state, Tuple4<Integer, Integer, Double, Long> in, Collector<Tuple4<Integer, Integer, Double, Long>> collector){
+        private void checkNewAdded(Integer id, HashMap<Integer, List<Tuple4<Integer, Integer, Double, Long>>> state, Tuple4<Integer, Integer, Double, Long> in, Collector<Tuple4<Integer, Integer, Double, Long>> collector) {
 
             int length = state.get(id).size();
             List<Tuple4<Integer, Integer, Double, Long>> list = state.get(id);
 
-            if ((list.get(length - 1).f3 - list.get(0).f3) >= 5000){
-                System.out.println("Start node " + list.get(0));
-                System.out.println("End   node " + list.get(length - 1));
-                System.out.println("Time elaps " + (list.get(length - 1).f3 - list.get(0).f3));
+            if ((list.get(length - 1).f3 - list.get(0).f3) >= 5000) {
+//                System.out.println("Start node " + list.get(0));
+//                System.out.println("End   node " + list.get(length - 1));
+//                System.out.println("Time elaps " + (list.get(length - 1).f3 - list.get(0).f3));
                 collector.collect(in);
             }
         }
@@ -316,6 +283,25 @@ public class TaxiMonitorStub {
         @Override
         public long extractAscendingTimestamp(Tuple4<Integer, Integer, Double, Long> element) {
             return element.f3;
+        }
+    }
+
+    public static class Over50Alert implements MapFunction<Tuple4<Integer, Integer, Double, Long>, Tuple1<String>> {
+
+
+        @Override
+        public Tuple1<String> map(Tuple4<Integer, Integer, Double, Long> value) throws Exception {
+            return new Tuple1<>("Car with id " +  value.f0 + " is driving to fast: " + value.f1);
+        }
+    }
+
+    public static class ParkingOver5seconds implements MapFunction<Tuple4<Integer, Integer, Double, Long>, Tuple1<String>> {
+
+
+        @Override
+        public Tuple1<String> map(Tuple4<Integer, Integer, Double, Long> value) throws Exception {
+
+            return new Tuple1<>("Car with id " +  value.f0 + " is parked over 5 seconds!");
         }
     }
 

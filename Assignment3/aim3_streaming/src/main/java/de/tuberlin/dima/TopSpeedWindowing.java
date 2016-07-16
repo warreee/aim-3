@@ -42,7 +42,7 @@ import org.apache.flink.streaming.api.windowing.triggers.DeltaTrigger;
  * and a timestamp. The streaming example triggers the top speed of each car
  * every x meters elapsed for the last y seconds.
  */
-public class TopSpeedWindowing {
+	public class TopSpeedWindowing {
 
 	private static final int NUM_CAR_EVENTS = 100;
 
